@@ -15,7 +15,7 @@ const GRAVITY = 80;
 const ENEMIES_DATA = [
   {
     id: "a",
-    image: "./assets/Enemy1.png", // The Rice Shower image (Blue rose hat)
+    image: "./assets/mambo.jpg", // The Rice Shower image (Blue rose hat)
     sound: "./assets/mambo.mp3", // Sound file for this enemy
     speed: 16,
     height: 3.0, 
@@ -23,7 +23,7 @@ const ENEMIES_DATA = [
   },
   {
     id: "b",
-    image: "./assets/Enemy2.png", // The Symboli Rudolf image (Green uniform)
+    image: "./assets/goldin-ship.jpg", // The Symboli Rudolf image (Green uniform)
     sound: "./assets/golshin.mp3", // Sound file for this enemy
     speed: 10,
     height: 3.8,
