@@ -17,7 +17,7 @@ const ENEMIES_DATA = [
     id: "a",
     image: "./assets/mambo.png", // The Rice Shower image (Blue rose hat)
     sound: "./assets/mambo.mp3", // Sound file for this enemy
-    speed: 30,
+    speed: 26,
     height: 3.0, 
     weight: 1.5,
   },
@@ -25,7 +25,7 @@ const ENEMIES_DATA = [
     id: "b",
     image: "./assets/goldin-ship.png", // The Symboli Rudolf image (Green uniform)
     sound: "./assets/golshin.mp3", // Sound file for this enemy
-    speed: 30,
+    speed: 26,
     height: 3.8,
     weight: 2.5,
   }
@@ -73,24 +73,38 @@ const App = () => {
   const activeEnemiesRef = useRef<{ mesh: THREE.Sprite, config: typeof ENEMIES_DATA[0], velocity: THREE.Vector3 }[]>([]);
   const dieSoundRef = useRef<THREE.Audio | null>(null);
 
-  useEffect(() => {
-    gameStateRef.current = gameState;
+useEffect(() => {
+  gameStateRef.current = gameState;
 
-    if (gameState === 'gameover') {
-        // 1. Stop all enemy sounds
-        activeEnemiesRef.current.forEach(enemy => {
-            const sound = enemy.mesh.children.find(c => c instanceof THREE.PositionalAudio) as THREE.PositionalAudio;
-            if (sound && sound.isPlaying) {
-                sound.stop();
-            }
-        });
+  if (gameState === 'playing') {
+    activeEnemiesRef.current.forEach(enemy => {
+      const sound = enemy.mesh.children.find(
+        c => c instanceof THREE.PositionalAudio
+      ) as THREE.PositionalAudio;
 
-        // 2. Play die sound
-        if (dieSoundRef.current && !dieSoundRef.current.isPlaying) {
-            dieSoundRef.current.play();
-        }
+      if (sound && !sound.isPlaying) {
+        sound.play();
+      }
+    });
+  }
+
+  if (gameState === 'gameover') {
+    activeEnemiesRef.current.forEach(enemy => {
+      const sound = enemy.mesh.children.find(
+        c => c instanceof THREE.PositionalAudio
+      ) as THREE.PositionalAudio;
+
+      if (sound && sound.isPlaying) {
+        sound.stop();
+      }
+    });
+
+    if (dieSoundRef.current && !dieSoundRef.current.isPlaying) {
+      dieSoundRef.current.play();
     }
-  }, [gameState]);
+  }
+}, [gameState]);
+
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -206,12 +220,6 @@ const App = () => {
                     // Don't play immediately here, wait for interaction or start
                     // However, for simplicity in this flow, we play and let context state handle it
                     // Or we can rely on handleStart to resume context.
-                    if (gameStateRef.current === 'playing') {
-                        sound.play();
-                    } else {
-                        // If loaded before start, sound.play() works but context is suspended
-                        sound.play();
-                    }
                 }, undefined, (err) => {
                     console.warn(`Could not load sound: ${enemyConfig.sound}`, err);
                 });
