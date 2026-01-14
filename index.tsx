@@ -9,7 +9,7 @@ const PLAYER_HEIGHT = 3;
 const PLAYER_SPEED = 30;
 const PLAYER_JUMP = 35;
 const GRAVITY = 80;
-const PS1_RESOLUTION_SCALE = 0.5; // 0.5 = half res, 0.25 = quarter res for extreme PS1 look
+const RESOLUTION_SCALE = 0.5;
 
 // --- Enemy Data ---
 const ENEMIES_DATA = [
@@ -132,16 +132,16 @@ const App = () => {
     camera.add(listener);
     audioContextRef.current = listener.context;
 
-    // --- Renderer Setup (PS1 Style) ---
+    // --- Renderer Setup ---
     const renderer = new THREE.WebGLRenderer({
-      antialias: false, // No antialiasing for PS1 look
+      antialias: false, // No antialiasing for old games look
       powerPreference: "high-performance",
     });
 
     // Render at reduced resolution
     renderer.setSize(
-      window.innerWidth * PS1_RESOLUTION_SCALE,
-      window.innerHeight * PS1_RESOLUTION_SCALE,
+      window.innerWidth * RESOLUTION_SCALE,
+      window.innerHeight * RESOLUTION_SCALE,
       false
     );
 
@@ -150,7 +150,7 @@ const App = () => {
     renderer.domElement.style.height = "100%";
     renderer.domElement.style.imageRendering = "pixelated";
 
-    renderer.setPixelRatio(1); // Lock to 1 for consistent PS1 look
+    renderer.setPixelRatio(1); // Lock to 1 for consistent old games look
     renderer.shadowMap.enabled = false; // No shadows for performance
 
     mountRef.current.innerHTML = "";
@@ -492,8 +492,8 @@ const App = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(
-        window.innerWidth * PS1_RESOLUTION_SCALE,
-        window.innerHeight * PS1_RESOLUTION_SCALE,
+        window.innerWidth * RESOLUTION_SCALE,
+        window.innerHeight * RESOLUTION_SCALE,
         false
       );
     };
