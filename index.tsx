@@ -7,7 +7,7 @@ const TILE_SIZE = 10;
 const WALL_HEIGHT = 8;
 const PLAYER_HEIGHT = 3;
 const PLAYER_SPEED = 30;
-const PLAYER_JUMP = 35;
+const PLAYER_JUMP = 30;
 const GRAVITY = 80;
 const RESOLUTION_SCALE = 0.5;
 
